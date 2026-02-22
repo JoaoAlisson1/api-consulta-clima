@@ -1,7 +1,8 @@
 package com.example.ClimaTracker.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record ConsultaClimaRequestDTO(
-        String cidade,
-        Double temperatura,
-        String descricao
+        @NotBlank(message = "Cidade é obrigatória")
+        String cidade
 ) {}
