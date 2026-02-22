@@ -15,12 +15,16 @@ import java.util.List;
 public class ConsultaClimaService {
 
     private final ConsultaClimaRepository repository;
+    private final OpenWeatherService openWeatherService;
 
     public ConsultaClimaResponseDTO salvar(ConsultaClimaRequestDTO request) {
+
+        var response = openWeatherService.consultarClima(request.cidade());
+
         ConsultaClima clima = ConsultaClima.builder()
-                .cidade(request.cidade())
-                .temperatura(request.temperatura())
-                .descricao(request.descricao())
+                .cidade(response.name())
+                .temperatura(response.main().temp())
+                .descricao(response.weather()[0].description())
                 .data_consulta(LocalDateTime.now())
                 .build();
 
