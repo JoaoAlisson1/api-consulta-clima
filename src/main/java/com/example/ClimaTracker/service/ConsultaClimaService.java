@@ -21,10 +21,24 @@ public class ConsultaClimaService {
 
         var response = openWeatherService.consultarClima(request.cidade());
 
+        String descricao;
+
+        if(response.weather() != null && response.weather().length > 0) {
+            descricao = response.weather()[0].description();
+        } else {
+            descricao = "Sem descrição";
+        }
+
+        Double temperatura = null;
+
+        if (response.main() != null) {
+            temperatura = response.main().temp();
+        }
+
         ConsultaClima clima = ConsultaClima.builder()
                 .cidade(response.name())
-                .temperatura(response.main().temp())
-                .descricao(response.weather()[0].description())
+                .temperatura(temperatura)
+                .descricao(descricao)
                 .data_consulta(LocalDateTime.now())
                 .build();
 
