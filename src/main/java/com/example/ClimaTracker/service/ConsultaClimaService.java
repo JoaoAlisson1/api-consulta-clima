@@ -2,6 +2,7 @@ package com.example.ClimaTracker.service;
 
 import com.example.ClimaTracker.dto.ConsultaClimaRequestDTO;
 import com.example.ClimaTracker.dto.ConsultaClimaResponseDTO;
+import com.example.ClimaTracker.infra.config.exceptions.CidadeNaoEncontradaException;
 import com.example.ClimaTracker.model.ConsultaClima;
 import com.example.ClimaTracker.repository.ConsultaClimaRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,10 @@ public class ConsultaClimaService {
     public ConsultaClimaResponseDTO salvar(ConsultaClimaRequestDTO request) {
 
         var response = openWeatherService.consultarClima(request.cidade());
+
+        if (response == null) {
+            throw new CidadeNaoEncontradaException("Cidade não encontrada.");
+        }
 
         String descricao;
 
